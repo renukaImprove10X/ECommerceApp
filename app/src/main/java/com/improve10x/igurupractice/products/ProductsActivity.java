@@ -53,6 +53,7 @@ public class ProductsActivity extends BaseActivity {
         adapter.setListener(id -> {
             Intent intent = new Intent(this, ProductDetailsActivity.class);
             intent.putExtra("id", id);
+            Toast.makeText(this, "id : " + id, Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
     }

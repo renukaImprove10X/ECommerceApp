@@ -48,7 +48,7 @@ public class ExampleUnitTest {
     public void testProductDetails() throws IOException {
         FakeApiClient apiClient = new FakeApiClient();
         FakeApiService service = apiClient.createService();
-        Call<Product> call = service.fetchProductDetails("1");
+        Call<Product> call = service.fetchProductDetails(1);
         Product productDetails = call.execute().body();
         assertNotNull(productDetails);
     }

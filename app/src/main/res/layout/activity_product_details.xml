@@ -1,9 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".productDetails.ProductDetailsActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="product"
+            type="com.improve10x.igurupractice.models.Product" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/product_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:minHeight="100dp"
+                app:imageUrl="@{product.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/product_title_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@{product.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_iv"
+                tools:text="Sample Title" />
+
+            <RatingBar
+                android:id="@+id/rate_rb"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/count_txt"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_title_txt" />
+
+            <TextView
+                android:id="@+id/count_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`(` + String.valueOf(product.rating.count) + `)`}"
+                app:layout_constraintBottom_toBottomOf="@+id/rate_rb"
+                app:layout_constraintStart_toEndOf="@+id/rate_rb"
+                app:layout_constraintTop_toTopOf="@+id/rate_rb"
+                tools:text="(100)" />
+
+            <TextView
+                android:id="@+id/product_price_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@{`₹ ` + String.valueOf(product.price)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rate_rb"
+                tools:text="₹ 100/-" />
+
+            <TextView
+                android:id="@+id/product_category_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{`Category : ` + product.category}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_price_txt"
+                tools:text="Sample Category" />
+
+            <TextView
+                android:id="@+id/product_desc_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{`Description : ` + product.description}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_category_txt"
+                tools:text="Sample Description" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
