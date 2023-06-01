@@ -1,14 +1,17 @@
 package com.improve10x.igurupractice.products;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.material.divider.MaterialDividerItemDecoration;
 import com.improve10x.igurupractice.BaseActivity;
 import com.improve10x.igurupractice.R;
 import com.improve10x.igurupractice.categories.CategoriesActivity;
@@ -59,7 +62,12 @@ public class ProductsActivity extends BaseActivity {
     }
 
     private void setupRecyclerView() {
-        binding.productsRv.setLayoutManager(new GridLayoutManager(this, 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.ItemDecoration decoration = new MaterialDividerItemDecoration(this, gridLayoutManager.getOrientation());
+        DividerItemDecoration decorationVertical = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
+        binding.productsRv.addItemDecoration(decoration);
+        binding.productsRv.addItemDecoration(decorationVertical);
+        binding.productsRv.setLayoutManager(gridLayoutManager);
     }
 
     private void fetchProducts(String categoryName) {

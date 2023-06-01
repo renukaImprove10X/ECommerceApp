@@ -49,6 +49,7 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:rating="@{product.rating.rate}"
                 app:layout_constraintEnd_toStartOf="@+id/count_txt"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="packed"

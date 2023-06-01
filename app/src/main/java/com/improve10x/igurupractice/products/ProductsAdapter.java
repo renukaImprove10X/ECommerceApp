@@ -1,6 +1,7 @@
 package com.improve10x.igurupractice.products;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;

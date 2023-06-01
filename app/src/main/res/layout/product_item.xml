@@ -1,72 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="product"
             type="com.improve10x.igurupractice.models.Product" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="12dp">
+        app:cardCornerRadius="8dp"
+        android:elevation="16dp"
+        android:focusable="true">
 
-        <ImageView
-            android:id="@+id/product_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="100dp"
-            app:imageUrl="@{product.imageUrl}"
-            android:adjustViewBounds="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/product_title_txt"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@{product.title}"
-            tools:text="Sample Title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product_iv" />
+            android:padding="12dp">
 
-        <RatingBar
-            android:id="@+id/rate_rb"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/count_txt"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product_title_txt" />
+            <ImageView
+                android:id="@+id/product_iv"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:adjustViewBounds="true"
+                android:minHeight="100dp"
+                android:scaleType="centerInside"
+                app:imageUrl="@{product.imageUrl}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/count_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{`(` + String.valueOf(product.rating.count) + `)`}"
-            tools:text = "(100)"
-            app:layout_constraintBottom_toBottomOf="@+id/rate_rb"
-            app:layout_constraintStart_toEndOf="@+id/rate_rb"
-            app:layout_constraintTop_toTopOf="@+id/rate_rb" />
+            <TextView
+                android:id="@+id/product_title_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@{product.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_iv"
+                tools:text="Sample Title" />
 
-        <TextView
-            android:id="@+id/product_price_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@{`₹ ` + String.valueOf(product.price)}"
-            tools:text = "₹ 100/-"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rate_rb" />
+            <RatingBar
+                android:id="@+id/rate_rb"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="@{Float.valueOf(product.rating.rate)}"
+                app:layout_constraintEnd_toStartOf="@+id/count_txt"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_title_txt" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/count_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`(` + String.valueOf(product.rating.count) + `)`}"
+                app:layout_constraintBottom_toBottomOf="@+id/rate_rb"
+                app:layout_constraintStart_toEndOf="@+id/rate_rb"
+                app:layout_constraintTop_toTopOf="@+id/rate_rb"
+                tools:text="(100)" />
+
+            <TextView
+                android:id="@+id/product_price_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@{`₹ ` + String.valueOf(product.price)}"
+                app:layout_constraintStart_toStartOf="@+id/rate_rb"
+                app:layout_constraintTop_toBottomOf="@+id/rate_rb"
+                tools:text="₹ 100/-" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
