@@ -119,6 +119,30 @@ public class ProductsActivity extends BaseActivity {
     }
 
     private void fetchProducts(String categoryName) {
+        if (categoryName.equals("All")) {
+            fetchAllProducts();
+        } else {
+            fetchCategoryProducts(categoryName);
+        }
+    }
+
+    private void fetchAllProducts() {
+        Call<List<Product>> productsCall = service.fetchAllProducts();
+        productsCall.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                products = response.body();
+                adapter.setupData(products);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Toast.makeText(ProductsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchCategoryProducts(String categoryName) {
         Call<List<Product>> productsCall = service.fetchProducts(categoryName);
         productsCall.enqueue(new Callback<List<Product>>() {
             @Override

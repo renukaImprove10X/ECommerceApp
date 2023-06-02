@@ -20,9 +20,9 @@ import retrofit2.Response;
 
 public class CategoriesActivity extends BaseActivity {
 
-    ActivityCategoriesBinding binding;
-    CategoriesAdapter adapter;
-    List<String> categories = new ArrayList<>();
+    private ActivityCategoriesBinding binding;
+    private CategoriesAdapter adapter;
+    private List<String> categories = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,7 @@ public class CategoriesActivity extends BaseActivity {
                 Toast.makeText(CategoriesActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                 Log.i("CATEGORIES", response.body().toString());
                 categories = response.body();
+                categories.add("All");
                 adapter.setupData(categories);
             }
 

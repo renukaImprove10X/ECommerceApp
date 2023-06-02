@@ -20,4 +20,7 @@ public interface FakeApiService {
     @GET("products/{id}")
     Call<Product> fetchProductDetails(@Path("id") int id);
 
+    @GET("products")
+    Call<List<Product>> fetchAllProducts();
+
 }

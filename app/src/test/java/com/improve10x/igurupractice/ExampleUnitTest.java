@@ -52,4 +52,14 @@ public class ExampleUnitTest {
         Product productDetails = call.execute().body();
         assertNotNull(productDetails);
     }
+
+    @Test
+    public void testAllProducts() throws IOException {
+        FakeApiClient apiClient = new FakeApiClient();
+        FakeApiService service = apiClient.createService();
+        Call<List<Product>> call = service.fetchAllProducts();
+        List<Product> products = call.execute().body();
+        assertNotNull(products);
+        assertFalse(products.isEmpty());
+    }
 }
