@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,12 +80,31 @@ public class ProductsActivity extends BaseActivity {
         binding.clearBtn.setOnClickListener(v -> {
             binding.minPriceTxt.setText("");
             binding.maxPriceTxt.setText("");
+            binding.applyBtn.setEnabled(false);
             binding.categoriesChipGroup.clearCheck();
             adapter.setupData(products);
         });
     }
 
     private void handleApplyButtonClick() {
+        binding.minPriceTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (binding.minPriceTxt.getText().toString() != null && binding.maxPriceTxt.getText().toString() != null) {
+                    binding.applyBtn.setEnabled(true);
+                }
+            }
+        });
         binding.applyBtn.setOnClickListener(v -> {
             if (binding.minPriceTxt.getText().toString() != null && binding.maxPriceTxt.getText().toString() != null) {
                 int min = Integer.parseInt(binding.minPriceTxt.getText().toString());
