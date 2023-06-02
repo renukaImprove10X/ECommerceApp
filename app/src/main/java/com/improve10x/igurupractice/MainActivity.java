@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         questionsCall.enqueue(new Callback<List<Question>>() {
             @Override
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                Toast.makeText(MainActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                 Log.i("QUESTIONS", response.body().toString());
                 setData(response.body());
             }

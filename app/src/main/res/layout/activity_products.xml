@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#CACAD3"
-    tools:context=".products.ProductsActivity">
+    tools:context=".products.activities.ProductsActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/filter_fragment"
-        android:name="com.improve10x.igurupractice.products.FilterFragment"
+        android:name="com.improve10x.igurupractice.products.fragments.FilterFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

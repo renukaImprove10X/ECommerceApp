@@ -20,7 +20,7 @@
             android:name=".productDetails.ProductDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".products.ProductsActivity"
+            android:name=".products.activities.ProductsActivity"
             android:exported="false" />
         <activity
             android:name=".categories.CategoriesActivity"

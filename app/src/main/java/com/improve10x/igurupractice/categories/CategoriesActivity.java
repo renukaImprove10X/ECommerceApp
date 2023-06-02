@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.improve10x.igurupractice.BaseActivity;
 import com.improve10x.igurupractice.databinding.ActivityCategoriesBinding;
-import com.improve10x.igurupractice.products.ProductsActivity;
+import com.improve10x.igurupractice.products.activities.ProductsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +57,6 @@ public class CategoriesActivity extends BaseActivity {
         categoriesCall.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                Toast.makeText(CategoriesActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
-                Log.i("CATEGORIES", response.body().toString());
                 categories = response.body();
                 categories.add("All");
                 adapter.setupData(categories);

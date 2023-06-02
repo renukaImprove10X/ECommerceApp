@@ -1,15 +1,14 @@
-package com.improve10x.igurupractice.products;
+package com.improve10x.igurupractice.products.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.improve10x.igurupractice.databinding.CategoryItemBinding;
 import com.improve10x.igurupractice.databinding.ProductItemBinding;
 import com.improve10x.igurupractice.models.Product;
+import com.improve10x.igurupractice.products.interfaces.OnProductActionListener;
 
 import java.util.List;
 

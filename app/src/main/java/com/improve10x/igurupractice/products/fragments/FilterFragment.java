@@ -1,4 +1,4 @@
-package com.improve10x.igurupractice.products;
+package com.improve10x.igurupractice.products.fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +15,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.improve10x.igurupractice.databinding.FragmentFilterBinding;
 import com.improve10x.igurupractice.models.Product;
+import com.improve10x.igurupractice.products.interfaces.IFilterView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -121,7 +122,7 @@ public class FilterFragment extends Fragment {
         filterView.updateFilteredProducts(filteredProducts);
     }
 
-    void showOrHideFilters(String categoryName) {
+    public void showOrHideFilters(String categoryName) {
         if (binding.priceLayout.getVisibility() == View.INVISIBLE || binding.priceLayout.getVisibility() == View.GONE) {
             binding.priceLayout.setVisibility(View.VISIBLE);
         } else {

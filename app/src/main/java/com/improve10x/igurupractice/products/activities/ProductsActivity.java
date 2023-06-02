@@ -1,38 +1,28 @@
-package com.improve10x.igurupractice.products;
+package com.improve10x.igurupractice.products.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.divider.MaterialDividerItemDecoration;
 import com.improve10x.igurupractice.BaseActivity;
 import com.improve10x.igurupractice.R;
-import com.improve10x.igurupractice.categories.CategoriesActivity;
-import com.improve10x.igurupractice.categories.CategoriesAdapter;
 import com.improve10x.igurupractice.databinding.ActivityProductsBinding;
 import com.improve10x.igurupractice.models.Product;
 import com.improve10x.igurupractice.productDetails.ProductDetailsActivity;
+import com.improve10x.igurupractice.products.interfaces.IFilterView;
+import com.improve10x.igurupractice.products.adapters.ProductsAdapter;
+import com.improve10x.igurupractice.products.fragments.FilterFragment;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,7 +82,6 @@ public class ProductsActivity extends BaseActivity implements IFilterView {
         adapter.setListener(id -> {
             Intent intent = new Intent(this, ProductDetailsActivity.class);
             intent.putExtra("id", id);
-            Toast.makeText(this, "id : " + id, Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
     }

@@ -1,4 +1,4 @@
-package com.improve10x.igurupractice.products;
+package com.improve10x.igurupractice.products.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 

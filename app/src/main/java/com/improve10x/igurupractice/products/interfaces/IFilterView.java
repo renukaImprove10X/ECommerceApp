@@ -1,4 +1,4 @@
-package com.improve10x.igurupractice.products;
+package com.improve10x.igurupractice.products.interfaces;
 
 import com.improve10x.igurupractice.models.Product;
 
