@@ -38,10 +38,14 @@ import retrofit2.Response;
 
 public class ProductsActivity extends BaseActivity {
 
-    ActivityProductsBinding binding;
-    ProductsAdapter adapter;
-    List<Product> products = new ArrayList<>();
+    private ActivityProductsBinding binding;
+    private ProductsAdapter adapter;
+    private List<Product> products = new ArrayList<>();
     private String categoryName;
+    private List<Product> filteredProducts;
+    private List<String> selectedCategories = new ArrayList<>();
+    private Integer minPrice;
+    private Integer maxPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +68,26 @@ public class ProductsActivity extends BaseActivity {
         binding.categoriesChipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                List<String> categories = new ArrayList<>();
-                for (Integer id: checkedIds) {
-                    categories.add(String.valueOf(((Chip)findViewById(id)).getText()).toLowerCase());
+                selectedCategories.clear();
+                for (Integer id : checkedIds) {
+                    selectedCategories.add(String.valueOf(((Chip) findViewById(id)).getText()).toLowerCase());
                 }
-                List<Product> filteredProducts = products.stream()
-                                .filter(product -> categories.contains(product.getCategory()))
-                                .collect(Collectors.toList());
-                adapter.setupData(filteredProducts);
+                applyFilters();
             }
         });
+    }
+
+    private void applyFilters() {
+        filteredProducts = selectedCategories.isEmpty() ? products :products.stream()
+                .filter(product -> selectedCategories.contains(product.getCategory()))
+                .collect(Collectors.toList());
+        if (minPrice != null && maxPrice != null) {
+            filteredProducts = filteredProducts
+                    .stream()
+                    .filter(product -> product.getPrice() >= minPrice && product.getPrice() <= maxPrice)
+                    .collect(Collectors.toList());
+        }
+        adapter.setupData(filteredProducts);
     }
 
     private void handleClearButtonClick() {
@@ -106,15 +120,9 @@ public class ProductsActivity extends BaseActivity {
             }
         });
         binding.applyBtn.setOnClickListener(v -> {
-            if (binding.minPriceTxt.getText().toString() != null && binding.maxPriceTxt.getText().toString() != null) {
-                int min = Integer.parseInt(binding.minPriceTxt.getText().toString());
-                int max = Integer.parseInt(binding.maxPriceTxt.getText().toString());
-                List<Product> filteredProducts = products
-                        .stream()
-                        .filter(product -> product.getPrice() >= min && product.getPrice() <= max)
-                        .collect(Collectors.toList());
-                adapter.setupData(filteredProducts);
-            }
+            minPrice = Integer.parseInt(binding.minPriceTxt.getText().toString());
+            maxPrice = Integer.parseInt(binding.maxPriceTxt.getText().toString());
+            applyFilters();
         });
     }
 
@@ -151,6 +159,7 @@ public class ProductsActivity extends BaseActivity {
 
     private void setupAdapter() {
         adapter = new ProductsAdapter();
+        filteredProducts = products;
         adapter.setupData(products);
         adapter.setListener(id -> {
             Intent intent = new Intent(this, ProductDetailsActivity.class);
@@ -183,6 +192,7 @@ public class ProductsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 products = response.body();
+                filteredProducts = products;
                 adapter.setupData(products);
             }
 
@@ -199,6 +209,7 @@ public class ProductsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 products = response.body();
+                filteredProducts = products;
                 adapter.setupData(products);
             }
 
