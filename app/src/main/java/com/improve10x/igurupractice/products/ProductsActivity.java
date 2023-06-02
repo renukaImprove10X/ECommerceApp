@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.divider.MaterialDividerItemDecoration;
 import com.improve10x.igurupractice.BaseActivity;
 import com.improve10x.igurupractice.R;
@@ -37,6 +39,7 @@ public class ProductsActivity extends BaseActivity {
     ActivityProductsBinding binding;
     ProductsAdapter adapter;
     List<Product> products = new ArrayList<>();
+    private String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +47,31 @@ public class ProductsActivity extends BaseActivity {
         binding = ActivityProductsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
-        String categoryName = intent.getStringExtra("categoryName");
+        categoryName = intent.getStringExtra("categoryName");
         getSupportActionBar().setTitle(categoryName);
         setupRecyclerView();
         setupAdapter();
         connectAdapter();
-        fetchProducts(categoryName);
+        fetchProducts();
         handleApplyButtonClick();
         handleClearButtonClick();
+        handleCategoryFilters();
+    }
+
+    private void handleCategoryFilters() {
+        binding.categoriesChipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                List<String> categories = new ArrayList<>();
+                for (Integer id: checkedIds) {
+                    categories.add(String.valueOf(((Chip)findViewById(id)).getText()).toLowerCase());
+                }
+                List<Product> filteredProducts = products.stream()
+                                .filter(product -> categories.contains(product.getCategory()))
+                                .collect(Collectors.toList());
+                adapter.setupData(filteredProducts);
+            }
+        });
     }
 
     private void handleClearButtonClick() {
@@ -88,7 +108,9 @@ public class ProductsActivity extends BaseActivity {
             } else {
                 binding.priceLayout.setVisibility(View.GONE);
             }
-            if (binding.categoriesChipGroup.getVisibility() == View.INVISIBLE || binding.categoriesChipGroup.getVisibility() == View.GONE) {
+            if (categoryName.equals("All")
+                    && (binding.categoriesChipGroup.getVisibility() == View.INVISIBLE ||
+                    binding.categoriesChipGroup.getVisibility() == View.GONE)) {
                 binding.categoriesChipGroup.setVisibility(View.VISIBLE);
             } else {
                 binding.categoriesChipGroup.setVisibility(View.GONE);
@@ -123,11 +145,11 @@ public class ProductsActivity extends BaseActivity {
         binding.productsRv.setLayoutManager(gridLayoutManager);
     }
 
-    private void fetchProducts(String categoryName) {
+    private void fetchProducts() {
         if (categoryName.equals("All")) {
             fetchAllProducts();
         } else {
-            fetchCategoryProducts(categoryName);
+            fetchCategoryProducts();
         }
     }
 
@@ -147,7 +169,7 @@ public class ProductsActivity extends BaseActivity {
         });
     }
 
-    private void fetchCategoryProducts(String categoryName) {
+    private void fetchCategoryProducts() {
         Call<List<Product>> productsCall = service.fetchProducts(categoryName);
         productsCall.enqueue(new Callback<List<Product>>() {
             @Override

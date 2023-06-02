@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#CACAD3"
     tools:context=".products.ProductsActivity">
 
@@ -15,31 +15,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:singleSelection="false"
         tools:visibility="visible">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/womens_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="Women's Clothing" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/mens_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="Men's clothing" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/electronics_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="Electronics" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/jewelery_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jewellery" />
+            android:checkable="true"
+            android:text="Jewelery" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,10 +55,10 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categories_chip_group">
+        app:layout_constraintTop_toBottomOf="@id/categories_chip_group"
+        tools:visibility="visible">
 
         <EditText
             android:id="@+id/min_price_txt"
@@ -105,9 +110,9 @@
         android:id="@+id/products_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/price_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/price_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
