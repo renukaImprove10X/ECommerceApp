@@ -1,5 +1,6 @@
 package com.improve10x.igurupractice.products;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.divider.MaterialDividerItemDecoration;
@@ -22,6 +26,7 @@ import com.improve10x.igurupractice.productDetails.ProductDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,10 +45,53 @@ public class ProductsActivity extends BaseActivity {
         setContentView(binding.getRoot());
         Intent intent = getIntent();
         String categoryName = intent.getStringExtra("categoryName");
+        getSupportActionBar().setTitle(categoryName);
         setupRecyclerView();
         setupAdapter();
         connectAdapter();
         fetchProducts(categoryName);
+        handleApplyButtonClick();
+        handleClearButtonClick();
+    }
+
+    private void handleClearButtonClick() {
+        binding.clearBtn.setOnClickListener(v -> {
+            adapter.setupData(products);
+        });
+    }
+
+    private void handleApplyButtonClick() {
+        binding.applyBtn.setOnClickListener(v -> {
+            if (binding.minPriceTxt.getText().toString() != null && binding.maxPriceTxt.getText().toString() != null) {
+                int min = Integer.parseInt(binding.minPriceTxt.getText().toString());
+                int max = Integer.parseInt(binding.maxPriceTxt.getText().toString());
+                List<Product> filteredProducts = products
+                        .stream()
+                        .filter(product -> product.getPrice() >= min && product.getPrice() <= max)
+                        .collect(Collectors.toList());
+                adapter.setupData(filteredProducts);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.store_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.filter_menu_item) {
+            if (binding.priceLayout.getVisibility() == View.INVISIBLE || binding.priceLayout.getVisibility() == View.GONE) {
+                binding.priceLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.priceLayout.setVisibility(View.GONE);
+            }
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     private void connectAdapter() {
@@ -75,9 +123,8 @@ public class ProductsActivity extends BaseActivity {
         productsCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                Toast.makeText(ProductsActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
-                Log.i("PRODUCTS", response.body().toString());
-                adapter.setupData(response.body());
+                products = response.body();
+                adapter.setupData(products);
             }
 
             @Override
