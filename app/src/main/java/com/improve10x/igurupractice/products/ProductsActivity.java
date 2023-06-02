@@ -76,6 +76,9 @@ public class ProductsActivity extends BaseActivity {
 
     private void handleClearButtonClick() {
         binding.clearBtn.setOnClickListener(v -> {
+            binding.minPriceTxt.setText("");
+            binding.maxPriceTxt.setText("");
+            binding.categoriesChipGroup.clearCheck();
             adapter.setupData(products);
         });
     }
