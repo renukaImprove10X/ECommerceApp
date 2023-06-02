@@ -66,10 +66,12 @@
             android:layout_height="wrap_content"
             android:hint="Enter min price"
             android:inputType="numberDecimal"
+            app:layout_constraintBottom_toBottomOf="@+id/max_price_txt"
             app:layout_constraintEnd_toStartOf="@+id/max_price_txt"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="10dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/max_price_txt"
@@ -80,7 +82,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/min_price_txt"
-            tools:layout_editor_absoluteY="10dp" />
+            tools:layout_editor_absoluteY="18dp" />
+
+        <Button
+            android:id="@+id/sort_low_high_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort AZ"
+            app:layout_constraintEnd_toStartOf="@+id/clear_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sort_high_low_btn"
+            app:layout_constraintTop_toTopOf="@+id/sort_high_low_btn" />
+
+        <Button
+            android:id="@+id/sort_high_low_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="Sort ZA"
+            app:layout_constraintEnd_toStartOf="@+id/sort_low_high_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/min_price_txt" />
 
         <Button
             android:id="@+id/apply_btn"
@@ -89,21 +113,20 @@
             android:enabled="false"
             android:text="Apply"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/clear_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/min_price_txt" />
+            app:layout_constraintTop_toTopOf="@+id/clear_btn" />
 
         <Button
             android:id="@+id/clear_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Clear"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/apply_btn"
-            app:layout_constraintHorizontal_bias="0.87"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/min_price_txt" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sort_low_high_btn"
+            app:layout_constraintTop_toTopOf="@+id/sort_low_high_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -111,6 +134,7 @@
         android:id="@+id/products_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

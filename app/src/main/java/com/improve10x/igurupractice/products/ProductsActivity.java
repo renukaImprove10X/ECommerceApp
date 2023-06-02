@@ -29,6 +29,7 @@ import com.improve10x.igurupractice.models.Product;
 import com.improve10x.igurupractice.productDetails.ProductDetailsActivity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,18 @@ public class ProductsActivity extends BaseActivity {
         handleApplyButtonClick();
         handleClearButtonClick();
         handleCategoryFilters();
+        handleSortButtons();
+    }
+
+    private void handleSortButtons() {
+        binding.sortLowHighBtn.setOnClickListener(v -> {
+            filteredProducts.sort(Comparator.comparingDouble(value -> value.getPrice()));
+            adapter.setupData(filteredProducts);
+        });
+        binding.sortHighLowBtn.setOnClickListener(v -> {
+            filteredProducts.sort((o1, o2) -> (o2.getPrice().compareTo(o1.getPrice())));
+            adapter.setupData(filteredProducts);
+        });
     }
 
     private void handleCategoryFilters() {
