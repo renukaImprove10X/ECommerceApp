@@ -88,6 +88,11 @@ public class ProductsActivity extends BaseActivity {
             } else {
                 binding.priceLayout.setVisibility(View.GONE);
             }
+            if (binding.categoriesChipGroup.getVisibility() == View.INVISIBLE || binding.categoriesChipGroup.getVisibility() == View.GONE) {
+                binding.categoriesChipGroup.setVisibility(View.VISIBLE);
+            } else {
+                binding.categoriesChipGroup.setVisibility(View.GONE);
+            }
             return true;
         } else {
             return super.onOptionsItemSelected(item);
