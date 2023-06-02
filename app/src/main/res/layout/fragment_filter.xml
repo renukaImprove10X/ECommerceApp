@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_products"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categories_chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:singleSelection="false"
+        tools:visibility="visible">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/womens_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Women's Clothing" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/mens_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Men's clothing" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/electronics_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Electronics" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/jewelery_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Jewelery" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/price_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categories_chip_group"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/min_price_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter min price"
+            android:inputType="numberDecimal"
+            app:layout_constraintBottom_toBottomOf="@+id/max_price_txt"
+            app:layout_constraintEnd_toStartOf="@+id/max_price_txt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/max_price_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter max price"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/min_price_txt"
+            tools:layout_editor_absoluteY="18dp" />
+
+        <Button
+            android:id="@+id/sort_low_high_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort AZ"
+            app:layout_constraintEnd_toStartOf="@+id/clear_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sort_high_low_btn"
+            app:layout_constraintTop_toTopOf="@+id/sort_high_low_btn" />
+
+        <Button
+            android:id="@+id/sort_high_low_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="Sort ZA"
+            app:layout_constraintEnd_toStartOf="@+id/sort_low_high_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/min_price_txt" />
+
+        <Button
+            android:id="@+id/apply_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Apply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/clear_btn"
+            app:layout_constraintTop_toTopOf="@+id/clear_btn" />
+
+        <Button
+            android:id="@+id/clear_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Clear"
+            app:layout_constraintEnd_toStartOf="@+id/apply_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sort_low_high_btn"
+            app:layout_constraintTop_toTopOf="@+id/sort_low_high_btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

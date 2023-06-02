@@ -2,6 +2,7 @@ package com.improve10x.igurupractice.products;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,16 +38,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductsActivity extends BaseActivity {
+public class ProductsActivity extends BaseActivity implements IFilterView {
 
     private ActivityProductsBinding binding;
     private ProductsAdapter adapter;
     private List<Product> products = new ArrayList<>();
     private String categoryName;
-    private List<Product> filteredProducts;
-    private List<String> selectedCategories = new ArrayList<>();
-    private Integer minPrice;
-    private Integer maxPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,83 +58,10 @@ public class ProductsActivity extends BaseActivity {
         setupAdapter();
         connectAdapter();
         fetchProducts();
-        handleApplyButtonClick();
-        handleClearButtonClick();
-        handleCategoryFilters();
-        handleSortButtons();
     }
 
-    private void handleSortButtons() {
-        binding.sortLowHighBtn.setOnClickListener(v -> {
-            filteredProducts.sort(Comparator.comparingDouble(value -> value.getPrice()));
-            adapter.setupData(filteredProducts);
-        });
-        binding.sortHighLowBtn.setOnClickListener(v -> {
-            filteredProducts.sort((o1, o2) -> (o2.getPrice().compareTo(o1.getPrice())));
-            adapter.setupData(filteredProducts);
-        });
-    }
-
-    private void handleCategoryFilters() {
-        binding.categoriesChipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                selectedCategories.clear();
-                for (Integer id : checkedIds) {
-                    selectedCategories.add(String.valueOf(((Chip) findViewById(id)).getText()).toLowerCase());
-                }
-                applyFilters();
-            }
-        });
-    }
-
-    private void applyFilters() {
-        filteredProducts = selectedCategories.isEmpty() ? products :products.stream()
-                .filter(product -> selectedCategories.contains(product.getCategory()))
-                .collect(Collectors.toList());
-        if (minPrice != null && maxPrice != null) {
-            filteredProducts = filteredProducts
-                    .stream()
-                    .filter(product -> product.getPrice() >= minPrice && product.getPrice() <= maxPrice)
-                    .collect(Collectors.toList());
-        }
-        adapter.setupData(filteredProducts);
-    }
-
-    private void handleClearButtonClick() {
-        binding.clearBtn.setOnClickListener(v -> {
-            binding.minPriceTxt.setText("");
-            binding.maxPriceTxt.setText("");
-            binding.applyBtn.setEnabled(false);
-            binding.categoriesChipGroup.clearCheck();
-            adapter.setupData(products);
-        });
-    }
-
-    private void handleApplyButtonClick() {
-        binding.minPriceTxt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (binding.minPriceTxt.getText().toString() != null && binding.maxPriceTxt.getText().toString() != null) {
-                    binding.applyBtn.setEnabled(true);
-                }
-            }
-        });
-        binding.applyBtn.setOnClickListener(v -> {
-            minPrice = Integer.parseInt(binding.minPriceTxt.getText().toString());
-            maxPrice = Integer.parseInt(binding.maxPriceTxt.getText().toString());
-            applyFilters();
-        });
+    void updateFilteredData(List<Product> products) {
+        adapter.setupData(products);
     }
 
     @Override
@@ -148,18 +73,9 @@ public class ProductsActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.filter_menu_item) {
-            if (binding.priceLayout.getVisibility() == View.INVISIBLE || binding.priceLayout.getVisibility() == View.GONE) {
-                binding.priceLayout.setVisibility(View.VISIBLE);
-            } else {
-                binding.priceLayout.setVisibility(View.GONE);
-            }
-            if (categoryName.equals("All")
-                    && (binding.categoriesChipGroup.getVisibility() == View.INVISIBLE ||
-                    binding.categoriesChipGroup.getVisibility() == View.GONE)) {
-                binding.categoriesChipGroup.setVisibility(View.VISIBLE);
-            } else {
-                binding.categoriesChipGroup.setVisibility(View.GONE);
-            }
+            FilterFragment filterFragment = (FilterFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.filter_fragment);
+            filterFragment.showOrHideFilters(categoryName);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -172,7 +88,6 @@ public class ProductsActivity extends BaseActivity {
 
     private void setupAdapter() {
         adapter = new ProductsAdapter();
-        filteredProducts = products;
         adapter.setupData(products);
         adapter.setListener(id -> {
             Intent intent = new Intent(this, ProductDetailsActivity.class);
@@ -205,7 +120,6 @@ public class ProductsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 products = response.body();
-                filteredProducts = products;
                 adapter.setupData(products);
             }
 
@@ -222,7 +136,6 @@ public class ProductsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 products = response.body();
-                filteredProducts = products;
                 adapter.setupData(products);
             }
 
@@ -231,5 +144,15 @@ public class ProductsActivity extends BaseActivity {
                 Toast.makeText(ProductsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void updateFilteredProducts(List<Product> products) {
+        adapter.setupData(products);
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        return products;
     }
 }
